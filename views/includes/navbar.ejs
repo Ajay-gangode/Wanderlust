@@ -1,0 +1,77 @@
+<nav class="navbar navbar-expand-md navbar-light bg-body-light border-bottom sticky-top">
+  <div class="container-fluid">
+    <!-- Brand / Logo -->
+    <a class="navbar-brand" href="/listings">
+      <i class="fa-regular fa-compass"></i>
+    </a>
+
+    <button class="navbar-toggle" type="button" onclick="document.querySelector('.navbar-hamburger').classList.toggle('d-flex')">
+      <span class="fa fa-bars"></span>
+    </button>
+
+
+    <!-- Normal navbar links (visible >800px) -->
+    <div class="navbar-items collapse navbar-collapse">
+      <div class="navbar-nav">
+        <a class="nav-link" href="/listings">Explore</a>
+      </div>
+      <div class="nav-bar ms-auto">
+        <form class="d-flex" role="search" method="GET" action="/listings">
+          <input 
+            class="form-control me-2 search-inp" 
+            type="search" 
+            name="search" 
+            placeholder="Search destinations" 
+            aria-label="Search"
+            value="<%= typeof search !== 'undefined' ? search : '' %>">
+          <div class="navbar-extra d-flex align-items-center">
+          
+            <!-- Min Price -->
+            <input 
+              class="form-control me-2 price-input" 
+              type="number" 
+              name="minPrice" 
+              placeholder="Min Price" 
+              min="0"
+              value="<%= typeof minPrice !== 'undefined' ? minPrice : '' %>">
+              <!-- Max Price -->
+            <input 
+              class="form-control me-2 price-input" 
+              type="number" 
+              name="maxPrice" 
+              placeholder="Max Price" 
+              min="0"
+              value="<%= typeof maxPrice !== 'undefined' ? maxPrice : '' %>">
+              </div>
+          <button class="btn search-btn" type="submit">
+            <i class="fa-solid fa-magnifying-glass"></i>Search
+          </button>
+        </form>
+      </div>
+
+      <div class="navbar-nav ms-auto">
+        <a class="nav-link" href="/listings/new">Airbnb your home</a>
+        <% if(!currUser){ %>
+          <a class="nav-link" href="/signup"> <b>Sign up</b></a>
+          <a class="nav-link" href="/login"> <b>Log in</b></a>
+        <% } %>
+        <% if(currUser){ %>
+          <a class="nav-link" href="/logout"> <b>Log out</b></a>
+        <% } %>
+      </div>
+    </div>
+
+    <!-- Hamburger menu content (hidden by default) -->
+     <div class="navbar-hamburger flex-column">
+      <a class="nav-link" href="/listings">Explore</a>
+      <a class="nav-link" href="/listings/new">Airbnb your home</a>
+      <% if(!currUser){ %>
+        <a class="nav-link" href="/signup">Sign up</a>
+        <a class="nav-link" href="/login">Log in</a>
+      <% } %>
+      <% if(currUser){ %>
+        <a class="nav-link" href="/logout">Log out</a>
+      <% } %>
+    </div>
+  </div>
+</nav>
