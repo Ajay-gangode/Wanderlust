@@ -25,7 +25,6 @@ const userRouter = require("./routes/user.js");
 // const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
 
 const dbUrl = process.env.ATLASDB_URL;
-console.log(dbUrl)
 main().then(() => {
     console.log('Connected to URL');
 }).catch((err) => {
@@ -91,6 +90,40 @@ app.use("/listings/:id/reviews", reviewRouter);
 app.use("/",userRouter);
 
 
+//Privacy Policy Route
+app.get("/privacy",(req,res)=>{
+    res.render("privacy");
+});
+
+//Terms & Conditions Route
+app.get("/terms",(req,res)=>{
+    res.render("terms");
+});
+
+//Contact us Route
+app.get("/contact",(req,res)=>{
+    res.render("contact");
+});
+
+//Flash message for Query
+app.post("/contact", (req, res) => {
+    // Check if user is logged in
+    if (!req.isAuthenticated()) {
+        req.flash("error", "You must login first to send a message.");
+        return res.redirect("/contact");
+    }
+
+    const { name, email, message } = req.body;
+
+    // Log or save message
+    console.log("Contact Form Submitted:", { name, email, message });
+
+    req.flash("success", "Your message has been sent successfully!");
+    res.redirect("/contact"); // back to contact page
+});
+
+
+
 app.use((req, res, next) => {
     next(new ExpressError(404, "Page Not Found!"))
 })
@@ -101,7 +134,6 @@ app.use((err, req, res, next) => {
     let { statusCode = 500, message = "Something went Wrong!" } = err;
     res.status(statusCode).render("error.ejs", { message });
 });
-
 
 
 app.listen(8080, () => {
